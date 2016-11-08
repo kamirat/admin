@@ -1,11 +1,15 @@
 <?php
   session_start();
-  include("config.php");
+
+  require_once("config.php");
+
   if(($_POST['id'] == "" or $_POST['pw'] == "") and ($_SESSION['id'] == "" or $_SESSION['pw'] == ""))
   {
     header("Location:index.php?check=error");
     exit();
-  }elseif(($_POST['id'] != "" and $_POST['pw'] != "") and ($_POST['id'] != $id or $_POST['pw'] != $pw))
+  }
+
+  elseif(($_POST['id'] != "" and $_POST['pw'] != "") and ($_POST['id'] != $id or $_POST['pw'] != $pw))
   {
     header("Location:index.php?check=error");
     exit();
@@ -21,6 +25,14 @@
       $_SESSION['pw'] = $_POST['pw'];
     }
   }
+
+  $year = date("Y",time());
+  $month = date("n",time());
+  $day = date("j",time());
+
+  $count = 1;
+
+
 ?>
 
 <!doctype html>
@@ -52,7 +64,7 @@
     <div class="header-container clearfix">
       <h1>新着情報CMS</h1>
       <nav class="header-navigation clearfix">
-        <a href="./"><i class="fa fa-home"></i>新着情報CMSトップへ戻る</a>
+        <a href="./logout.php"><i class="fa fa-home"></i>ログアウト</a>
         <a href="../"><i class="fa fa-building"></i>ウェブサイトへ戻る</a>
       </nav>
     </div>
@@ -86,18 +98,12 @@
               <th abbr="com">日付</th>
               <td>
                 <select name="year">
-                  <?php
-                    $year = date("Y",time());
-                    $month = date("n",time());
-                    $day = date("j",time());
-                  ?>
                   <option value="<?=$year-1?>"><?=$year-1?></option>
                   <option value="<?=$year?>" selected="selected"><?=$year?></option>
                   <option value="<?=$year+1?>"><?=$year+1?></option>
                 </select>年
                 <select name="month">
                   <?php
-                    $count = 1;
                     while($count != 13)
                     {
                     if($count == $month)
@@ -116,7 +122,6 @@
                 </select>月
                 <select name="day">
                   <?php
-                    $count = 1;
                     while($count != 32)
                     {
                     if($count == $day)
@@ -174,7 +179,7 @@
 
   <!-- FOOTER -->
   <footer id="footer">
-    <p>Copyright (c) 2016 一般社団法人 安寿 All Rights Reserved.</p>
+    <p>Copyright (c) 2016 ___ All Rights Reserved.</p>
   </footer>
   <!-- END FOOTER -->
 

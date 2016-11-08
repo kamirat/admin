@@ -1,15 +1,20 @@
 <?php
+
   session_start();
-  include("config.php");
-  if($_SESSION['id'] != $id or $_SESSION['pw'] != $pw)
+
+  require_once("config.php");
+
+  if (empty($_SESSION['id']))
   {
-    header("Location:index.php");
-    exit();
+    header('Location:index.php?check=error');
+    exit;
   }
+
   $input_date = date("Y年n月j日",time());
   $corr_data = $_POST['time']."\t".$input_date."\t".$_POST['year']."\t".$_POST['month']."\t".$_POST['day']."\t".$_POST['title']."\t".N_BR($_POST['info'])."\t".$_POST['link']."\t".$_POST['url']."\t".$_POST['url_text']."\t".$_POST['disp']."\n";
   $fp = fopen($news_data,"r");
   $size = filesize($news_data);
+
   if($size != 0)
   {
     $read = fread($fp,$size);
@@ -94,7 +99,7 @@
     <div class="header-container clearfix">
       <h1>新着情報CMS</h1>
       <nav class="header-navigation clearfix">
-        <a href="./"><i class="fa fa-home"></i>新着情報CMSトップへ戻る</a>
+        <a href="./logout.php"><i class="fa fa-home"></i>ログアウト</a>
         <a href="../"><i class="fa fa-building"></i>ウェブサイトへ戻る</a>
       </nav>
     </div>
@@ -140,21 +145,13 @@
           <tr>
             <th abbr="start1">リンクの有無</th>
             <td>
-              <?php
-                if($fin[7] == "0"){
-              ?>
+              <?php if($fin[7] == "0"): ?>
               リンクしない
-              <?php
-                }elseif($fin[7] == "1"){
-              ?>
+              <?php elseif($fin[7] == "1"): ?>
               現在のタブでリンクを開く
-              <?php
-                }elseif($fin[7] == "2"){
-              ?>
+              <?php elseif($fin[7] == "2"): ?>
               新規のタブでリンクを開く
-              <?php
-                }
-              ?>
+              <?php endif ?>
             </td>
           </tr>
           <tr>
@@ -175,17 +172,11 @@
           <tr>
             <th abbr="mon">表示・非表示</th>
             <td>
-              <?php
-                if($fin[10] == 1){
-              ?>
+              <?php if($fin[10] == 1): ?>
               表示
-              <?php
-                }elseif($fin[10] == 0){
-              ?>
+              <?php elseif($fin[10] == 0): ?>
               非表示
-              <?php
-                }
-              ?>
+              <?php endif ?>
             </td>
           </tr>
         </table>
@@ -197,7 +188,7 @@
 
   <!-- FOOTER -->
   <footer id="footer">
-    <p>Copyright (c) 2016 一般社団法人 安寿 All Rights Reserved.</p>
+    <p>Copyright (c) 2016 ___ All Rights Reserved.</p>
   </footer>
   <!-- END FOOTER -->
 

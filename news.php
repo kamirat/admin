@@ -14,8 +14,8 @@
     <?php
       include("config.php");
       $result = file("data/news.dat");
-      if($result[0] != false)
-      {
+        if (!empty($result)){
+
       $count = 0;
       while($result[$count] != false)
       {
@@ -55,7 +55,8 @@
       }
       $count++;
       }
-      }else{
+      }
+      else{
     ?>
     <div class="news-inner-alt">
       <p class="news-empty">現在お知らせする情報はございません。</p>

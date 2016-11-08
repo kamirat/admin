@@ -1,11 +1,16 @@
 <?php
+
   session_start();
-  include("config.php");
-  if($_SESSION['id'] != $id or $_SESSION['pw'] != $pw)
+
+  require_once("config.php");
+
+  if (empty($_SESSION['id']))
   {
-    header("Location:index.php");
-    exit();
+    header('Location:index.php?check=error');
+    exit;
   }
+
+
   $input_date = date("Y年n月j日",time());
   $input_time = time();
   $in_data = $input_time."\t".$input_date."\t".$_POST['year']."\t".$_POST['month']."\t".$_POST['day']."\t".$_POST['title']."\t".N_BR($_POST['info'])."\t".$_POST['link']."\t".$_POST['url']."\t".$_POST['url_text']."\t".$_POST['disp']."\n";
@@ -55,7 +60,7 @@
     <div class="header-container clearfix">
       <h1>新着情報CMS</h1>
       <nav class="header-navigation clearfix">
-        <a href="./"><i class="fa fa-home"></i>新着情報CMSトップへ戻る</a>
+        <a href="./logout.php"><i class="fa fa-home"></i>ログアウト</a>
         <a href="../"><i class="fa fa-building"></i>ウェブサイトへ戻る</a>
       </nav>
     </div>
@@ -135,17 +140,11 @@
           <tr>
             <th>表示・非表示</th>
             <td>
-              <?php
-                if($data[10] == 1){
-              ?>
+              <?php if($data[10] == 1): ?>
               表示
-              <?php
-                }elseif($data[10] == 0){
-              ?>
+              <?php else: ?>
               非表示
-              <?php
-                }
-              ?>
+              <?php endif ?>
             </td>
           </tr>
         </table>
@@ -157,7 +156,7 @@
 
   <!-- FOOTER -->
   <footer id="footer">
-    <p>Copyright (c) 2016 一般社団法人 安寿 All Rights Reserved.</p>
+    <p>Copyright (c) 2016 ___ All Rights Reserved.</p>
   </footer>
   <!-- END FOOTER -->
 

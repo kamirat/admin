@@ -1,11 +1,15 @@
 <?php
+
   session_start();
-  include("config.php");
-  if($_SESSION['id'] != $id or $_SESSION['pw'] != $pw)
+
+  require_once("config.php");
+
+  if (empty($_SESSION['id']))
   {
-    header("Location:index.php");
-    exit();
+    header('Location:index.php?check=error');
+    exit;
   }
+
   $title = 0;
   $info = 0;
   $link = 0;
@@ -24,6 +28,8 @@
   {
     $link = 1;
   }
+
+
 ?>
 
 <!doctype html>
@@ -55,7 +61,7 @@
     <div class="header-container clearfix">
       <h1>新着情報CMS</h1>
       <nav class="header-navigation clearfix">
-        <a href="./"><i class="fa fa-home"></i>新着情報CMSトップへ戻る</a>
+        <a href="./logout.php"><i class="fa fa-home"></i>ログアウト</a>
         <a href="../"><i class="fa fa-building"></i>ウェブサイトへ戻る</a>
       </nav>
     </div>
@@ -81,32 +87,18 @@
 
     <!-- MAIN CONTENTS -->
     <section class="contents-inner">
-      <?php
-        if($info == 0 and $link == 0)
-        {
-      ?>
-      <form method="post" action="news01_in.php">
-      <?php
-        }else{
-      ?>
-      <form method="post" action="news01_conf.php">
-      <?php
-        }
-      ?>
+      <?php if($info == 0 and $link == 0): ?>
+        <form method="post" action="news01_in.php">
+      <?php else: ?>
+        <form method="post" action="news01_conf.php">
+      <?php endif ?>
         <div class="general-container clearfix">
           <h2>新着情報登録</h2>
-          <?php
-            if($info == 0 and $link == 0)
-            {
-          ?>
-          <p class="notification notice"><i class="fa fa-question-circle" aria-hidden="true"></i>下記の内容で登録してもよろしいですか？</p>
-          <?php
-            }else{
-          ?>
-          <p class="notification error"><i class="fa fa-times-circle" aria-hidden="true"></i>必要な内容が入力されていません。</p>
-          <?php
-            }
-          ?>
+          <?php if($info == 0 and $link == 0): ?>
+           <p class="notification notice"><i class="fa fa-question-circle" aria-hidden="true"></i>下記の内容で登録してもよろしいですか？</p>
+          <?php else: ?>
+           <p class="notification error"><i class="fa fa-times-circle" aria-hidden="true"></i>必要な内容が入力されていません。</p>
+          <?php endif ?>
           <table class="general-form">
             <tr>
               <th abbr="com">日付</th>
@@ -119,48 +111,32 @@
             </tr>
             <tr>
               <th abbr="ttl">タイトル</th>
-              <?php
-                if($title == 0)
-                {
-              ?>
+              <?php if($title == 0): ?>
               <td>
                 <?=N_BR($_POST['title'])?>
                 <input name="title" type="hidden" value="<?=$_POST['title']?>">
               </td>
-              <?php
-                }else{
-              ?>
+              <?php else: ?>
               <td>
                 <p class="error-message"><i class="fa fa-times-circle" aria-hidden="true"></i>タイトルを入力してください。</p>
               </td>
-              <?php
-                }
-              ?>
+              <?php endif ?>
             </tr>
             <tr>
               <th abbr="add">掲載情報</th>
-              <?php
-                if($info == 0)
-                {
-              ?>
-              <td>
-                <?=N_BR($_POST['info'])?>
-                <input name="info" type="hidden" value="<?=$_POST['info']?>">
-              </td>
-              <?php
-                }else{
-              ?>
-              <td>
-                <p class="error-message"><i class="fa fa-times-circle" aria-hidden="true"></i>掲載情報を入力してください。</p>
-              </td>
-              <?php
-                }
-              ?>
+              <?php if($info == 0): ?>
+                <td>
+                  <?=N_BR($_POST['info'])?>
+                  <input name="info" type="hidden" value="<?=$_POST['info']?>">
+                </td>
+              <?php else: ?>
+                <td>
+                  <p class="error-message"><i class="fa fa-times-circle" aria-hidden="true"></i>掲載情報を入力してください。</p>
+                </td>
+              <?php endif ?>
             </tr>
             <tr>
-              <?php
-                if($link == 0)
-                {
+              <?php if($link == 0){
               ?>
               <th abbr="start1">リンクの有無</th>
               <td>
@@ -235,35 +211,23 @@
             <tr>
               <th abbr="mon">表示・非表示</th>
               <td>
-                <?php
-                  if($_POST['disp'] == "1"){
-                ?>
-                表示
-                <?php
-                  }elseif($_POST['disp'] == "0"){
-                ?>
-                非表示
-                <?php
-                  }
-                ?>
+                <?php if($_POST['disp'] == "1"): ?>
+                  表示
+                  <?php else: ?>
+                  非表示
+                <?php endif ?>
                 <input name="disp" type="hidden" value="<?=$_POST['disp']?>">
               </td>
             </tr>
           </table>
           <p class="notification warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>管理画面より登録する情報は、「表示」が選択されている場合、登録と同時にホームページに情報が反映されますので、情報に誤りのないように十分ご確認の上ご登録ください。</p>
-          <?php
-            if($info == 0 and $link == 0){
-          ?>
-          <button class="return-button-alt" type="button" onClick="history.back()">戻って修正する</button>
-          <button class="submit-button-alt" name="submit" type="submit">以上の内容で登録する</button>
-          <?php
-            }else{
-          ?>
-          <button class="return-button-alt" type="button" onClick="history.back()">戻って修正する</button>
-          <button class="submit-button-alt" name="submit" type="submit">登録情報の確認画面へ</button>
-          <?php
-            }
-          ?>
+          <?php if($info == 0 and $link == 0): ?>
+            <button class="return-button-alt" type="button" onClick="history.back()">戻って修正する</button>
+            <button class="submit-button-alt" name="submit" type="submit">以上の内容で登録する</button>
+          <?php else: ?>
+            <button class="return-button-alt" type="button" onClick="history.back()">戻って修正する</button>
+            <button class="submit-button-alt" name="submit" type="submit">登録情報の確認画面へ</button>
+          <?php endif ?>
         </div>
       </form>
     </section>
@@ -273,7 +237,7 @@
 
   <!-- FOOTER -->
   <footer id="footer">
-    <p>Copyright (c) 2016 一般社団法人 安寿 All Rights Reserved.</p>
+    <p>Copyright (c) 2016 ___ All Rights Reserved.</p>
   </footer>
   <!-- END FOOTER -->
 

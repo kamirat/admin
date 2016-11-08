@@ -1,11 +1,16 @@
 <?php
+
   session_start();
-  include("config.php");
-  if($_SESSION['id'] != $id or $_SESSION['pw'] != $pw)
+
+  require_once("config.php");
+
+  if (empty($_SESSION['id']))
   {
-    header("Location:index.php");
-    exit();
+    header('Location:index.php?check=error');
+    exit;
   }
+
+
   $get_data = file($news_data);
   $count = 0;
   while($get_data[$count] != false)
@@ -48,7 +53,7 @@
     <div class="header-container clearfix">
       <h1>新着情報CMS</h1>
       <nav class="header-navigation clearfix">
-        <a href="./"><i class="fa fa-home"></i>新着情報CMSトップへ戻る</a>
+        <a href="./logout.php"><i class="fa fa-home"></i>ログアウト</a>
         <a href="../"><i class="fa fa-building"></i>ウェブサイトへ戻る</a>
       </nav>
     </div>

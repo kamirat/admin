@@ -1,10 +1,23 @@
+<?php
+
+require_once('config.php');
+
+session_start();
+
+if (!empty($_SESSION['id']))
+{
+  header('Location:news01.php');
+  exit;
+}
+?>
+
 <!doctype html>
 <html class="no-js" lang="ja">
 
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>新着情報CMS</title>
+  <title>新着情報CMS ログイン</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -25,9 +38,9 @@
   <!-- HEADER -->
   <header id="header">
     <div class="header-container clearfix">
-      <h1>新着情報CMS</h1>
+      <h1>新着情報CMS ログイン</h1>
       <nav class="header-navigation clearfix">
-        <a href="./"><i class="fa fa-home"></i>新着情報CMSトップへ戻る</a>
+        <!-- <a href="./"><i class="fa fa-home"></i>新着情報CMSトップへ戻る</a> -->
         <a href="../"><i class="fa fa-building"></i>ウェブサイトへ戻る</a>
       </nav>
     </div>
@@ -40,18 +53,13 @@
     <section class="login-container">
       <h2>新着情報CMSログイン</h2>
       <form action="news01.php" method="post">
-        <?php
-          if($_GET['check'] == "error")
-          {
-        ?>
-        <p class="notification error"><i class="fa fa-times-circle" aria-hidden="true"></i>ログインIDまたはパスワードが違います。</p>
-        <?php
-          }else{
-        ?>
-        <p class="notification notice"><i class="fa fa-info-circle"></i>情報を更新するためには、下記よりログインが必要です。</p>
-        <?php
-          }
-        ?>
+        <?php if($_GET['check'] == "error"): ?>
+          <p class="notification error">
+          <i class="fa fa-times-circle" aria-hidden="true"></i>ログインIDまたはパスワードが違います。</p>
+        <?php else: ?>
+          <p class="notification notice">
+          <i class="fa fa-info-circle"></i>情報を更新するためには、下記よりログインが必要です。</p>
+        <?php endif ?>
         <input name="id" type="text" placeholder="ログインID">
         <input name="pw" type="password" placeholder="パスワード">
         <button type="submit">ログイン</button>
